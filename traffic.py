@@ -82,8 +82,9 @@ def get_model():
     # Create the Neural Network Model using keras:
     model = tf.keras.models.Sequential([
 
-    # Add 2 sequential 128 filter, 3x3 Convolutional Layers Followed by 2x2 Pooling
+    # Add 2 sequential 128 filter + 256 filter   3x3 Convolutional Layers
     tf.keras.layers.Conv2D(128, (3, 3), activation="relu", input_shape=(IMG_WIDTH, IMG_HEIGHT, 3)),
+    # Add 2 2x2 Max Pooling
     tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
     tf.keras.layers.Conv2D(256, (3, 3), activation="relu", input_shape=(IMG_WIDTH, IMG_HEIGHT, 3)),
     tf.keras.layers.MaxPooling2D(pool_size=(2,2)),
@@ -91,16 +92,14 @@ def get_model():
     tf.keras.layers.Flatten(),
     tf.keras.layers.Dense(500, activation="relu"),
     tf.keras.layers.Dropout(0.4),
-    # Add Dense Output layer with 43 output units
     tf.keras.layers.Dense(NUM_CATEGORIES, activation="softmax")
     ])
 
-    # Set additional model settings and compile:
+    # Compile model
     model.compile(optimizer='adam',
               loss='categorical_crossentropy',
               metrics=['accuracy'])
 
-    # Return model for training and testing
     return model
 
 
